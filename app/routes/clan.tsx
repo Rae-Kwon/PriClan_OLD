@@ -1,6 +1,6 @@
 import { Outlet } from "remix";
 
-function ClanRoute() {
+function ClanRoute(): JSX.Element {
 	return (
 		<div>
 			<h1>Clan Page</h1>

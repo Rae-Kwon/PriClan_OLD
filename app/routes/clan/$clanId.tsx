@@ -7,7 +7,7 @@ import BackButton from "~/components/BackButton";
 
 type LoaderData = { clan: Clan };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params }): Promise<object> => {
     try {
         invariant(params.clanId, 'params.clanId is required')
         const clan = await getClan(params.clanId)
@@ -21,7 +21,7 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
 };
 
-function ClanProfile() {
+function ClanProfile(): JSX.Element {
     const { clan } = useLoaderData() as LoaderData
 
 	return (
@@ -29,14 +29,14 @@ function ClanProfile() {
             <BackButton backTo='/clanlist' />
             <h1>{clan.name}</h1>
             <h2>Member List {clan.memberCount}/30</h2>
-            <ul>
+            {clan.memberList && <ul>
                 {clan.memberList.map((member, index) => <li key={index}>{member}</li>)}
-            </ul>
+            </ul>}
         </div>
     );
 }
 
-export function CatchBoundary() {
+export function CatchBoundary(): JSX.Element {
     const caught = useCatch()
     const params = useParams()
 

@@ -9,7 +9,7 @@ type Clan = {
 
 const clanSchema = new mongoose.Schema({
 	name: { type: String, required: true },
-	memberList: [{ type: mongoose.Schema.Types.ObjectId , ref: 'User'}],
+	memberList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User'}],
 	memberCount: { type: Number, required: true },
 });
 

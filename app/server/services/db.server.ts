@@ -9,7 +9,7 @@ declare global {
 
 connect();
 
-async function connect() {
+async function connect(): Promise<object> {
 	if (db) return db;
 
 	if (process.env.NODE_ENV === "production") {
@@ -23,6 +23,7 @@ async function connect() {
 		}
 		db = global.__db;
 	}
+
 	return db;
 }
 
