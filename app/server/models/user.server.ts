@@ -1,7 +1,6 @@
 import { mongoose } from "../services/db.server";
 
 type User = {
-	_id?: mongoose.Types.ObjectId;
 	username: string;
 	passwordHash: string;
 	createdAt: Date;
