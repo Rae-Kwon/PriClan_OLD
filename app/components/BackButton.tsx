@@ -4,7 +4,7 @@ type BackButtonProps = {
     backTo: string
 } 
 
-function BackButton({ backTo }: BackButtonProps) {
+function BackButton({ backTo }: BackButtonProps): JSX.Element {
 	return (
         <button>
             <Link to={backTo}>Back</Link>

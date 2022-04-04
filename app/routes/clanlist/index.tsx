@@ -5,14 +5,14 @@ import type { Clan } from "~/server/models/clan.server";
 
 type LoaderData = { clans: Array<Clan> };
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async (): Promise<object> => {
 	const clans: LoaderData = {
 		clans: await getClans(),
 	};
 	return json<LoaderData>(clans);
 };
 
-function ClanHome() {
+function ClanHome(): JSX.Element {
 	const { clans } = useLoaderData<LoaderData>();
 	return (
 		<div>
