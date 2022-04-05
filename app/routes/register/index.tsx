@@ -57,7 +57,9 @@ export const action: ActionFunction = async ({ request }): Promise<object> => {
 			formError: "Something went wrong trying to create a new user",
 		});
 	}
-	return createUserSession(user.id, redirectTo)
+	const userId = user.id
+	
+	return createUserSession({ userId, redirectTo })
 };
 
 function Register(): JSX.Element {

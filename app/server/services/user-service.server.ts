@@ -1,15 +1,6 @@
-import { User, UserModel } from "../models/user.server";
+import { UserModel } from "../models/user.server";
 import { hashedPassword } from "../middleware/passwordResolver.server";
-
-type UserAuth = {
-	username: string;
-	password: string;
-};
-
-type CreateUser = {
-	id: string;
-	username: string;
-}
+import type { UserAuth, CreateUser } from "./types.server"
 
 async function createUser({ username, password }: UserAuth): Promise<CreateUser> {
 	const registerUser = await UserModel.create({

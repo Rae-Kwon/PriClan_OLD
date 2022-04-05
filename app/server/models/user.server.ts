@@ -1,11 +1,5 @@
 import { mongoose } from "../services/db.server";
-
-type User = {
-	username: string;
-	passwordHash: string;
-	createdAt: Date;
-	updatedAt: Date;
-};
+import type { User } from "./types.server"
 
 const userSchema = new mongoose.Schema({
 	username: { type: String, required: true },
@@ -17,4 +11,3 @@ const userSchema = new mongoose.Schema({
 const UserModel = mongoose.model<User>("User", userSchema);
 
 export { UserModel };
-export type { User };

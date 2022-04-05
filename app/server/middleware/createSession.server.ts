@@ -2,6 +2,7 @@ import {
     createCookieSessionStorage,
     redirect
 } from "remix"
+import type { UserSession } from "./types.server"
 
 const sessionSecret = process.env.SESSION_SECRET
 if (!sessionSecret) {
@@ -20,10 +21,7 @@ const storage = createCookieSessionStorage({
     },
 })
 
-export async function createUserSession(
-    userId: string,
-    redirectTo: string
-): Promise<object> {
+export async function createUserSession({ userId, redirectTo }: UserSession): Promise<object> {
     const session = await storage.getSession()
     session.set("userId", userId);
     return redirect(redirectTo, {
