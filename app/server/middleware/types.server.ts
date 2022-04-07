@@ -3,10 +3,4 @@ type UserSession = {
     redirectTo: string
 }
 
-type ResolvePassword = {
-    password: string,
-    hash?: string,
-}
-
-
-export type { UserSession, ResolvePassword }
+export type { UserSession }
