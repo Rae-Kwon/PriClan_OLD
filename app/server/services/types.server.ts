@@ -3,9 +3,9 @@ type UserAuth = {
 	password: string;
 };
 
-type CreateUser = {
+type UserEntryForm = {
 	id: string;
 	username: string;
 }
 
-export type { UserAuth, CreateUser }
+export type { UserAuth, UserEntryForm }

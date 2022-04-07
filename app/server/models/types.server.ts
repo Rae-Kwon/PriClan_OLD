@@ -8,6 +8,7 @@ type Clan = {
 };
 
 type User = {
+	_id?: mongoose.Types.ObjectId;
 	username: string;
 	passwordHash: string;
 	createdAt: Date;
