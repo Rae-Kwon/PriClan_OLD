@@ -1,5 +1,5 @@
 import { json } from "remix";
-import type { ActionData } from "~/types";
+import type { ActionData } from "~/routes/types";
 import { createUser, loginUser } from "~/server/services/user-service.server";
 import { createUserSession } from "~/cookie";
 
