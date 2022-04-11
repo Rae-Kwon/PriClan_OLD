@@ -1,4 +1,4 @@
-type ActionData = {
+type UserActionData = {
 	formError?: string;
 	fieldErrors?: {
 		username: string | undefined;
@@ -10,4 +10,4 @@ type ActionData = {
 	};
 };
 
-export type { ActionData }
+export type { UserActionData }

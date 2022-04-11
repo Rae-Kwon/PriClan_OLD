@@ -1,5 +1,5 @@
 import { json } from "remix";
-import type { ActionData } from "~/routes/types";
+import type { UserActionData } from "~/types";
 import { createUser, loginUser } from "~/server/services/user-service.server";
 import { createUserSession } from "~/cookie";
 
@@ -19,7 +19,7 @@ function validatePassword(password: unknown): string | undefined {
 	}
 }
 
-const badRequest = (data: ActionData): object => json(data, { status: 400 });
+const badRequest = (data: UserActionData): object => json(data, { status: 400 });
 
 export const userAuthFormAction = async (request: Request) => {
     const form = await request.formData();
