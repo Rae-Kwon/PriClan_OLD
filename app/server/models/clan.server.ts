@@ -1,11 +1,5 @@
 import { mongoose } from "../services/db.server";
-
-type Clan = {
-	_id?: mongoose.Types.ObjectId
-	name: string;
-	memberList: [mongoose.Types.ObjectId];
-	memberCount: number;
-};
+import type { Clan } from "./types.server"
 
 const clanSchema = new mongoose.Schema({
 	name: { type: String, required: true },
@@ -16,4 +10,3 @@ const clanSchema = new mongoose.Schema({
 const ClanModel = mongoose.model<Clan>("Clan", clanSchema);
 
 export { ClanModel };
-export type { Clan };

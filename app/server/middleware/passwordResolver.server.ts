@@ -7,4 +7,10 @@ async function hashedPassword(password: string): Promise<string> {
 	return passwordHash;
 }
 
-export { hashedPassword }
+async function checkPassword(password: string, passwordHash: string): Promise<boolean> {
+	if (passwordHash === null) throw 'Cannot find hashed version of password'
+
+	return await bcrypt.compare(password, passwordHash)
+}
+
+export { hashedPassword, checkPassword };

@@ -1,9 +1,11 @@
-function Home(): JSX.Element {
-  return (
-    <div>
-      <h1>Welcome to PriClan</h1>
-    </div>
-  );
-}
+import LoginLogoutButton from "~/components/LoginLogoutButton";
 
-export default Home
+function Home() {
+	return (
+		<div>
+			<h1>Welcome to PriClan</h1>
+			<LoginLogoutButton />
+		</div>
+	);
+}
+export default Home;

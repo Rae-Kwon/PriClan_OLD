@@ -1,15 +1,15 @@
-import { useLoaderData, json, Link } from "remix";
+import { useLoaderData, json, Link, Outlet } from "remix";
 import type { LoaderFunction } from "remix";
 import { getClans } from "~/server/services/clan-service.server";
-import type { Clan } from "~/server/models/clan.server";
+import type { Clan } from "~/server/models/types.server";
 
 type LoaderData = { clans: Array<Clan> };
 
 export const loader: LoaderFunction = async (): Promise<object> => {
-	const clans: LoaderData = {
+	const clans = {
 		clans: await getClans(),
 	};
-	return json<LoaderData>(clans);
+	return json(clans);
 };
 
 function ClanHome(): JSX.Element {
