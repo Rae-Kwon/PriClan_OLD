@@ -1,6 +1,6 @@
 import { Link } from "remix";
 
-function LoginLogout({ user }: any): JSX.Element {
+function LoginLogoutButton ({ user }: any): JSX.Element {
     console.log(user)
 	return (
 		<>
@@ -17,4 +17,4 @@ function LoginLogout({ user }: any): JSX.Element {
 	);
 }
 
-export default LoginLogout;
+export default LoginLogoutButton;
