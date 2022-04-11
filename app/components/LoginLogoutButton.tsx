@@ -1,7 +1,7 @@
 import { Link } from "remix";
 
-function LoginLogoutButton ({ user }: any): JSX.Element {
-    console.log(user)
+function LoginLogoutButton({ user }: any): JSX.Element {
+	console.log(user);
 	return (
 		<>
 			{user ? (
@@ -11,7 +11,9 @@ function LoginLogoutButton ({ user }: any): JSX.Element {
 					</form>
 				</div>
 			) : (
-				<Link to="/login">Login</Link>
+				<button>
+					<Link to="/login">Login</Link>
+				</button>
 			)}
 		</>
 	);
