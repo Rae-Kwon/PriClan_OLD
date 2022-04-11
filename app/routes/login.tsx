@@ -1,8 +1,8 @@
-import { userAuthFormAction } from "~/actions";
+import { userAuthFormAction } from "~/routes/actions";
 import UserAuthForm from "~/components/UserAuthForm";
 import { useActionData, useLocation } from "remix";
 import type { ActionFunction } from "remix";
-import { ActionData } from "~/types";
+import { ActionData } from "~/routes/types";
 
 export const action: ActionFunction = async ({ request }): Promise<object> => {
 	if (request === null) throw "No request from server";

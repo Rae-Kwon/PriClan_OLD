@@ -1,4 +1,4 @@
-import { userAuthFormAction } from "~/actions";
+import { userAuthFormAction } from "~/routes/actions";
 import UserAuthForm from "~/components/UserAuthForm";
 import { ActionFunction, useActionData, useLocation } from "remix";
 
