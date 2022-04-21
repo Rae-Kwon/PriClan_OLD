@@ -1,12 +1,25 @@
-import { ActionData } from "~/types"
+import type { UserSession } from "~/server/services/types.server";
 
 type UserAuthFormProps = {
-    title: string,
-    usernameFields?: string,
-	usernameFieldErrors?: string,
-	passwordFields?: string,
-	passwordFieldErrors?: string,
-	formError?: string,
-}
+	title: string;
+	error: string;
+	checkErrorField: string;
+};
 
-export type { UserAuthFormProps }
+type UserProfileProps = {
+	user: UserSession;
+};
+
+type FormField = {
+	value: string;
+	hasError: boolean;
+	error: string;
+};
+
+type FormErrorValidationState = {
+	email: FormField;
+	password: FormField;
+	passwordCheck: FormField;
+};
+
+export type { UserAuthFormProps, UserProfileProps, FormErrorValidationState };

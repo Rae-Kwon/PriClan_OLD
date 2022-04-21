@@ -1,11 +1,12 @@
 import type { ActionFunction, LoaderFunction } from "remix";
-import { redirect } from "remix"
-import { logout } from "~/cookie"
+import authenticator from "~/server/services/auth.server";
 
-export const action: ActionFunction = async ({ request }) => {
-    return logout(request)
+export const loader: LoaderFunction = async ({ request }) => {
+    await authenticator.isAuthenticated(request, {
+        failureRedirect: '/login'
+    })
 }
 
-export const loader: LoaderFunction = async () => {
-    return redirect("/")
+export const action: ActionFunction = async ({ request }) => {
+    await authenticator.logout(request, { redirectTo: "/" })
 }

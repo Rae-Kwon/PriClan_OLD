@@ -26,6 +26,9 @@ app.use(morgan("tiny"));
 app.all(
   "*",
   createRequestHandler({
+    getLoadContext(req, _) {
+      return { url: req.url }
+    },
     build: serverBuild,
     mode: process.env.NODE_ENV,
   })

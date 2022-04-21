@@ -3,13 +3,15 @@ import type { User } from "./types.server";
 
 const userSchema = new mongoose.Schema(
 	{
-		username: {
+		email: {
 			type: String,
 			required: true,
 			unique: true,
 			dropDups: true,
 		},
+		username: { type: String },
 		passwordHash: { type: String, required: true },
+		clan: { type: mongoose.Schema.Types.ObjectId, ref: "Clan" }
 	},
 	{ timestamps: true }
 );

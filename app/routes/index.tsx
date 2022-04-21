@@ -1,5 +1,5 @@
-import LoginLogoutButton from "~/components/LoginLogoutButton";
-import RegisterButton from "~/components/RegisterButton";
+import LoginLogoutButton from "~/components/Buttons/LoginLogoutButton";
+import RegisterButton from "~/components/Buttons/RegisterButton";
 
 function Home() {
 	return (

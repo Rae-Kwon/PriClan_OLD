@@ -1,29 +1,40 @@
-import { userAuthFormAction } from "~/routes/actions";
-import UserAuthForm from "~/components/UserAuthForm";
-import { ActionFunction, useActionData, useLocation } from "remix";
+import UserAuthForm from "~/components/User/UserAuthForm";
+import { ActionFunction, useLocation, LoaderFunction, json, useActionData } from "remix";
+import { AuthorizationError } from "remix-auth";
+import authenticator from "~/server/services/auth.server";
 
-export const action: ActionFunction = async ({ request }): Promise<object> => {
-	if (request === null) throw "No request from server";
-	return userAuthFormAction(request);
+export const action: ActionFunction = async ({ request, context }) => {
+	try {
+		return await authenticator.authenticate("user-pass", request, {
+			successRedirect: "/user",
+			throwOnError: true,
+			context,
+		});
+	} catch (error) {
+		if (error instanceof Response) return error;
+		if (error instanceof AuthorizationError) {
+			return json({ error: error.message });
+		}
+		return error;
+	}
+};
+
+export const loader: LoaderFunction = async ({ request }) => {
+	return await authenticator.isAuthenticated(request, {
+		successRedirect: "/user",
+	});
 };
 
 function Register(): JSX.Element {
-	const actionData = useActionData();
-	const usernameFields = actionData?.fields.username;
-	const usernameFieldErrors = actionData?.fieldErrors.username;
-	const passwordFields = actionData?.fields.password;
-	const passwordFieldErrors = actionData?.fieldErrors.password;
-	const formError = actionData?.formError;
+	const data = useActionData();
 	const { pathname } = useLocation();
+	console.log("data ", data)
 
 	return (
 		<UserAuthForm
 			title={pathname}
-			usernameFields={usernameFields}
-			usernameFieldErrors={usernameFieldErrors}
-			passwordFields={passwordFields}
-			passwordFieldErrors={passwordFieldErrors}
-			formError={formError}
+			error={data?.error}
+			checkErrorField={data?.error.toLowerCase()}
 		/>
 	);
 }

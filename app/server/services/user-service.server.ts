@@ -3,50 +3,74 @@ import {
 	checkPassword,
 	hashedPassword,
 } from "../middleware/passwordResolver.server";
-import type { UserAuth, UserEntryForm } from "./types.server";
-import { getUserId, logout } from "../../cookie";
+import type { UserAuth, UserUpdate } from "./types.server";
 
-async function getUser(request: Request): Promise<object | null> {
-	const userId = await getUserId(request)
-	if (typeof userId !== "string") return null
+async function getUsers() {
+	const users = await UserModel.find()
+	return users
+}
 
-	try {
-		const user = await UserModel.findOne({ _id: userId });
-		return user;
-	} catch {
-		throw logout(request)
+async function getUser(email: string | undefined) {
+	const user = await UserModel.findOne({ email });
+
+	if (!user) return null
+	return user
+}
+
+async function userExists(email: string | undefined) {
+	const user = await UserModel.findOne({ email });
+
+	if (!user) return false
+	return true
+}
+
+async function findOrCreateUser({
+	email,
+	password,
+	url
+}: UserAuth) {
+	const user = await UserModel.findOne({ email })
+
+	if (user){
+		const isCorrectPassword = await checkPassword(password, user.passwordHash);
+
+		if (isCorrectPassword) return { id: user.id, email}
 	}
-}
 
-async function loginUser({
-	username,
-	password,
-}: UserAuth): Promise<UserEntryForm | null> {
-	const user = await UserModel.findOne({ username });
-
-	if (!user) return null;
-	const isCorrectPassword = await checkPassword(password, user.passwordHash);
-
-	if (!isCorrectPassword) return null;
-	return { id: user.id, username };
-}
-
-async function createUser({
-	username,
-	password,
-}: UserAuth): Promise<UserEntryForm | null> {
-	try {
-		const user = await UserModel.create({
-			username,
+	if (!user && url.includes("register")) {
+		const registerUser = await UserModel.create({
+			email,
 			passwordHash: await hashedPassword(password)
 		});
-
-		return { id: user.id, username };
-	} catch (err: any) {
-		throw new Response("Username is already registered", {
-			status: 409,
-		});
+	
+		return { id: registerUser.id, email };
 	}
+
+	return null
 }
 
-export { getUser, createUser, loginUser };
+async function updateUser({
+	username,
+	email,
+	password,
+	clan,
+}: UserUpdate) {
+	const user = await getUser(email)
+	if (!user) return null
+	try {
+		if (username) user.username = username
+		if (email) user.email = email
+		if (password) user.passwordHash = await hashedPassword(password)
+		if (clan) user.clan = clan
+		await user.save()
+
+		return { username, password, clan }
+	} catch {
+		throw new Response("Unable to update user", {
+			status: 400,
+		})
+	}
+	
+}
+
+export { getUser, getUsers, userExists, findOrCreateUser, updateUser };

@@ -22,7 +22,7 @@ function ClanHome(): JSX.Element {
 					let clanId = clan._id ? clan._id.toString() : null;
 					return (
 						<li key={clanId}>
-							<Link to={`/clan/${clanId}`}>{clan.name}</Link>
+							<Link to={`/clan/${clanId}`}>{clan.clanName}</Link>
 						</li>
 					);
 				})}
