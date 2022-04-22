@@ -1,4 +1,4 @@
-import { Outlet, LoaderFunction, json, useLoaderData } from "remix";
+import { Outlet, LoaderFunction, json, useLoaderData, useActionData } from "remix";
 import LoginLogoutButton from "~/components/Buttons/LoginLogoutButton";
 import authenticator from "~/server/services/auth.server";
 import type { UserSession } from "~/server/services/types.server"

@@ -14,7 +14,7 @@ export const loader: LoaderFunction = async ({
 	request,
 }): Promise<object> => {
 	const user = await authenticator.isAuthenticated(request, {
-		failureRedirect: "/login"
+		failureRedirect: "/login",
 	});
 	invariant(params.clanId, "params.clanId is required");
 	const clan = await getClan(params.clanId);
@@ -32,9 +32,9 @@ function ClanProfile(): JSX.Element {
 			{clan.members && (
 				<ul>
 					{clan.members.map((memberId, index) => {
-						console.log("INside MList", memberId)
-						return <li key={index}>{memberId}</li>
-})}
+						console.log("INside MList", memberId);
+						return <li key={index}>{memberId}</li>;
+					})}
 				</ul>
 			)}
 		</div>

@@ -1,7 +1,6 @@
 import { Link } from "remix";
 
 function LoginLogoutButton({ user }: any): JSX.Element {
-	console.log(user);
 	return (
 		<>
 			{user ? (

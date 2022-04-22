@@ -1,5 +1,12 @@
 import type { UserAuthFormProps, FormErrorValidationState } from "../types";
 import { Form } from "remix";
+import { useState } from "react";
+import {
+	formValidationState,
+	onChangeHandler,
+	onInputChange,
+	onSubmitErrors,
+} from "./UserAuthFormHandlers";
 
 function createTitle(title: string): string {
 	if (title.includes("/")) {
@@ -17,36 +24,9 @@ function UserAuthForm({
 	error,
 	checkErrorField,
 }: UserAuthFormProps): JSX.Element {
-	let emailError;
-	let passwordError;
-	let passwordCheckError;
-	let userError;
-
-	if (
-		checkErrorField &&
-		checkErrorField.includes("email") &&
-		!checkErrorField.includes("password")
-	)
-		emailError = error;
-
-	if (
-		checkErrorField &&
-		checkErrorField.includes("password") &&
-		!checkErrorField.includes("email") &&
-		!checkErrorField.includes("match")
-	)
-		passwordError = error;
-
-	if (checkErrorField && checkErrorField.includes("match"))
-		passwordCheckError = error;
-
-	if (
-		(checkErrorField &&
-			checkErrorField.includes("email") &&
-			checkErrorField.includes("password")) ||
-		(checkErrorField && checkErrorField.includes("user"))
-	)
-		userError = error;
+	const [formValidation, setFormValidation] = useState(formValidationState);
+	const submitErrors = onSubmitErrors(error, checkErrorField);
+	const [isSubmitted, setIsSubmitted] = useState(false);
 
 	return (
 		<div>
@@ -59,13 +39,40 @@ function UserAuthForm({
 						id="email-input"
 						name="email"
 						required
-						aria-invalid={Boolean(error)}
-						aria-errormessage={error ? "email-error" : undefined}
+						value={formValidation.email.value}
+						onChange={(event) =>
+							onChangeHandler({
+								event,
+								setIsSubmitted,
+								setFormValidation,
+							})
+						}
 					/>
-					{emailError && (
-						<div>{error}</div>
-					)}
+					{isSubmitted ? (
+						<div>{formValidation.email.error}</div>
+					) : null}
 				</div>
+				{title.includes("register") && (
+					<div>
+						<label htmlFor="username-input">Set Username: </label>
+						<input
+							type="text"
+							id="username-input"
+							name="username"
+							value={formValidation.username.value}
+							onChange={(event) =>
+								onChangeHandler({
+									event,
+									setIsSubmitted,
+									setFormValidation,
+								})
+							}
+						/>
+						{isSubmitted ? (
+							<div>{formValidation.username.error}</div>
+						) : null}
+					</div>
+				)}
 				<div>
 					<label htmlFor="password-input">Password</label>
 					<input
@@ -73,12 +80,20 @@ function UserAuthForm({
 						id="password-input"
 						name="password"
 						required
-						aria-invalid={Boolean(error)}
-						aria-errormessage={error ? "password-error" : undefined}
+						value={formValidation.password.value}
+						onChange={(event) =>
+							onChangeHandler({
+								event,
+								setIsSubmitted,
+								setFormValidation,
+							})
+						}
 					/>
-					{passwordError && (
-						<div>{error}</div>
-					)}
+					{formValidation.password.hasError ? (
+						<div>{formValidation.password.error}</div>
+					) : isSubmitted ? (
+						<div>{formValidation.password.error}</div>
+					) : null}
 				</div>
 				{title.includes("register") && (
 					<div>
@@ -90,20 +105,21 @@ function UserAuthForm({
 							name="passwordCheck"
 							id="password-confirmation-input"
 							required
-							aria-invalid={Boolean(error)}
-							aria-errormessage={
-								error ? "password-check-error" : undefined
+							value={formValidation.passwordCheck.value}
+							onChange={(event) =>
+								onChangeHandler({
+									event,
+									setIsSubmitted,
+									setFormValidation,
+								})
 							}
 						/>
-						{passwordCheckError && (
-							<div>{error}</div>
-						)}
+						{isSubmitted ? (
+							<div>{formValidation.passwordCheck.error}</div>
+						) : null}
 					</div>
 				)}
-				{userError && (
-					<div>{error}</div>
-				)}
-				<button type="submit">
+				<button type="submit" onClick={() => setIsSubmitted(true)}>
 					{title.includes("login") ? "Sign In" : "Sign Up"}
 				</button>
 			</Form>

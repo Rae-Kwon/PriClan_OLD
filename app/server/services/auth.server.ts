@@ -15,6 +15,7 @@ const authenticator = new Authenticator<UserSession>(sessionStorage, {
 authenticator.use(
 	new FormStrategy(async ({ form, context }) => {
 		const email = form.get("email");
+		const username = form.get("username");
 		const password = form.get("password");
 		const reenteredPassword = form.get("passwordCheck");
 		const url = context.url;
@@ -39,13 +40,30 @@ authenticator.use(
 				"Password must be at least 8 characters long"
 			);
 
-		const checkUserExists = await userExists(email);
-
-		if (checkUserExists && url.includes("register"))
-			throw new AuthorizationError("User is already registered");
-
 		if (password !== reenteredPassword && url.includes("register"))
 			throw new AuthorizationError("Password does not match");
+
+		if (url.includes("register")) {
+			const checkUserExists = await userExists(email);
+
+			if (checkUserExists)
+				throw new AuthorizationError("User is already registered");
+
+			if (typeof username !== "string" || username.length < 1)
+				throw new AuthorizationError("Invalid Username");
+
+			const user = await findOrCreateUser({
+				email,
+				username,
+				password,
+				url,
+			});
+
+			if (!user)
+				throw new AuthorizationError("Email or Password is incorrect");
+
+			return user;
+		}
 
 		const user = await findOrCreateUser({ email, password, url });
 

@@ -5,7 +5,7 @@ import type { ClanActionData } from "~/types";
 
 const badRequest = (data: ClanActionData) => json(data, { status: 400 });
 
-export const createClanFormAction = async (request: Request) => {
+export const createClanFormAction = async (request: Request, id: string) => {
 	const form = await request.formData();
 	const clanName = form.get("clan-name");
     const members = form.getAll("member")
@@ -19,7 +19,7 @@ export const createClanFormAction = async (request: Request) => {
 
 	const clan = await createClan({ clanName, members, memberCount });
 
-    await updateUser({ request, clan: clan.id })
+    await updateUser({ id, clan: clan.id })
 
 	if (!clan) {
 		return badRequest({

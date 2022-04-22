@@ -28,7 +28,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 function Register(): JSX.Element {
 	const data = useActionData();
 	const { pathname } = useLocation();
-	console.log("data ", data)
 
 	return (
 		<UserAuthForm

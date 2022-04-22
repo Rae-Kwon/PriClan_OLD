@@ -2,17 +2,19 @@ import { mongoose } from "../services/db.server";
 
 type UserAuth = {
 	email: string;
+	username?: string;
 	password: string;
 	url: string;
 };
 
 type UserSession = {
-	id?: string | null;
-	email?: string | null;
+	id?: string;
+	email?: string;
+	username?: string;
 }
 
 type UserUpdate = {
-	request: Request;
+	id: string;
 	username?: string;
 	email?: string;
 	password?: string;
